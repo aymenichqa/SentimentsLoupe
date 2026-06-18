@@ -220,9 +220,21 @@ pip install -r requirements.txt
 # 4. (Optionnel) Installer Playwright pour le scraping Trustpilot
 playwright install chromium
 
-# 5. Lancer l'application
+# 5. Générer ou télécharger les modèles (obligatoire avant la première utilisation)
+python scripts/download_models.py
+
+# 6. Lancer l'application
 streamlit run app/app.py
 ```
+
+### ⚠️ Modèles volumineux
+
+Les fichiers suivants sont **non versionnés** sur GitHub (taille > 100 Mo) :
+- `data/models/champion_model.pkl` (~150 Mo)
+- `data/models/feature_engineer.pkl` (pipelines + TF-IDF ~350 Mo)
+- `data/models/xlm_roberta_finetuned/model.safetensors` (~1.06 Go)
+
+Exécutez `python scripts/download_models.py` pour les générer automatiquement à partir des notebooks.
 
 ---
 
