@@ -1,0 +1,27 @@
+{
+  "phase": 2,
+  "description": "Multi-sources & Multilingue — TF-IDF amélioré + XLM-RoBERTa",
+  "datasets": {
+    "train": "Flipkart + Trustpilot (8 929 avis)",
+    "test_jumia": "60 avis (français/darija)",
+    "test_trustpilot": "1 235 avis (anglais)"
+  },
+  "models": {
+    "tfidf_improved": {
+      "name": "Phase 2A — TF-IDF amélioré",
+      "trained_on": "FK + Trustpilot (8 929)",
+      "trustpilot_f1": "— (dans train)",
+      "jumia_f1": 0.3764,
+      "flipkart_f1": null,
+      "gain_vs_p1": "+0.0369"
+    },
+    "xlm_roberta": {
+      "name": "Phase 2B — XLM-RoBERTa",
+      "trained_on": "FK + Trustpilot (8 929)",
+      "trustpilot_f1": 0.6017,
+      "jumia_f1": 0.5660,
+      "flipkart_f1": null,
+      "gain_vs_p1": "+0.2265"
+    }
+  }
+}

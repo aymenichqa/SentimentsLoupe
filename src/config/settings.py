@@ -1,4 +1,4 @@
-"""Configuration globale DarijaLens Phase 1."""
+"""Configuration globale SentimentsLoupe."""
 from pathlib import Path
 import os
 from dotenv import load_dotenv

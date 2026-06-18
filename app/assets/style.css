@@ -1,0 +1,417 @@
+/* ── SentimentsLoupe — Style professionnel ── */
+/* Palette principale : beige / marron clair / marron foncé */
+/* Couleurs sentiments : vert (#2E7D32), orange (#F57F17), rouge (#C62828) */
+
+/* ── Global ── */
+.stApp {
+    background-color: #FAF8F5;
+    color: #3D3D3D;
+}
+
+/* ── Barre latérale ── */
+section[data-testid="stSidebar"] {
+    background-color: #EDE7DC;
+    padding: 1.5rem 0.5rem;
+}
+
+section[data-testid="stSidebar"] .stMarkdown,
+section[data-testid="stSidebar"] p,
+section[data-testid="stSidebar"] span,
+section[data-testid="stSidebar"] label,
+section[data-testid="stSidebar"] div {
+    color: #3D3D3D;
+}
+
+section[data-testid="stSidebar"] .st-cb {
+    color: #3D3D3D;
+}
+
+/* ── Bouton primaire (🔍 Analyser) ── */
+div.stButton > button[kind="primary"] {
+    background-color: #8D6E63;
+    color: #FFFFFF !important;
+    border: none;
+    border-radius: 8px;
+    padding: 0.5rem 1rem;
+    font-weight: 600;
+    font-size: 1rem;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    transition: all 0.2s;
+}
+
+div.stButton > button[kind="primary"]:hover {
+    background-color: #6D4C41;
+    border: none;
+    color: #FFFFFF !important;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.15);
+}
+
+div.stButton > button[kind="primary"]:active {
+    background-color: #5D4037;
+}
+
+/* ── Radio buttons ── */
+div.stRadio > div[role="radiogroup"] > label {
+    background-color: #F5F0EB;
+    border: 1px solid #D7CCC8;
+    border-radius: 8px;
+    padding: 0.3rem 0.8rem;
+    margin-right: 0.3rem;
+    color: #5D4037 !important;
+    font-size: 0.9rem;
+    transition: all 0.15s;
+}
+
+div.stRadio > div[role="radiogroup"] > label:hover {
+    background-color: #EBE3D5;
+}
+
+div.stRadio > div[role="radiogroup"] > label[data-selected="true"] {
+    background-color: #8D6E63;
+    border-color: #8D6E63;
+    color: #FFFFFF !important;
+}
+
+/* ── Slider ── */
+div.stSlider > div[data-baseweb="slider"] > div {
+    background: #D7CCC8;
+}
+
+div.stSlider > div[data-baseweb="slider"] > div > div {
+    background: #8D6E63;
+}
+
+div.stSlider label,
+div.stSlider span {
+    color: #3D3D3D !important;
+}
+
+/* ── Text area / Text input ── */
+div.stTextArea textarea,
+div.stTextInput input {
+    border: 1px solid #D7CCC8;
+    border-radius: 8px;
+    background-color: #FFFFFF;
+    color: #3D3D3D !important;
+}
+
+div.stTextArea textarea:focus,
+div.stTextInput input:focus {
+    border-color: #8D6E63;
+    box-shadow: 0 0 0 1px #8D6E63;
+}
+
+div.stTextArea label,
+div.stTextInput label {
+    color: #5D4037 !important;
+}
+
+div.stTextArea textarea::placeholder,
+div.stTextInput input::placeholder {
+    color: #A1887F;
+    opacity: 1;
+}
+
+/* ── Caption ── */
+.stCaption {
+    color: #A1887F;
+}
+
+/* ── En-tête logo ── */
+.app-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 0.5rem 0 1.5rem 0;
+    border-bottom: 1px solid #D7CCC8;
+    margin-bottom: 1.5rem;
+}
+
+.app-header h1 {
+    font-size: 1.6rem;
+    font-weight: 600;
+    color: #3D3D3D;
+    margin: 0;
+}
+
+.app-header .subtitle {
+    font-size: 0.85rem;
+    color: #8D6E63;
+    margin: 0;
+}
+
+/* ── Cartes ── */
+.card {
+    background: linear-gradient(135deg, #FFFFFF, #FAF8F5);
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    border: 1px solid #E8E0D8;
+    margin-bottom: 1rem;
+    color: #3D3D3D;
+}
+
+.card h3 {
+    margin-top: 0;
+    color: #3D3D3D;
+    font-size: 1.1rem;
+}
+
+.card p {
+    color: #5D4037;
+}
+
+/* ── Résultat sentiment ── */
+.result-positive {
+    background: linear-gradient(135deg, #E8F5E9, #C8E6C9);
+    border: 2px solid #A5D6A7;
+    color: #2E7D32 !important;
+    border-radius: 12px;
+    padding: 1.2rem;
+    text-align: center;
+    font-weight: 600;
+    font-size: 1.3rem;
+    box-shadow: 0 2px 6px rgba(46,125,50,0.15);
+}
+
+.result-neutral {
+    background: linear-gradient(135deg, #FFF8E1, #FFECB3);
+    border: 2px solid #FFD54F;
+    color: #F57F17 !important;
+    border-radius: 12px;
+    padding: 1.2rem;
+    text-align: center;
+    font-weight: 600;
+    font-size: 1.3rem;
+    box-shadow: 0 2px 6px rgba(245,127,23,0.15);
+}
+
+.result-negative {
+    background: linear-gradient(135deg, #FFEBEE, #FFCDD2);
+    border: 2px solid #EF9A9A;
+    color: #C62828 !important;
+    border-radius: 12px;
+    padding: 1.2rem;
+    text-align: center;
+    font-weight: 600;
+    font-size: 1.3rem;
+    box-shadow: 0 2px 6px rgba(198,40,40,0.15);
+}
+
+.result-error {
+    background: linear-gradient(135deg, #F3E5F5, #E1BEE7);
+    border: 2px solid #CE93D8;
+    color: #6A1B9A !important;
+    border-radius: 12px;
+    padding: 1.2rem;
+    text-align: center;
+    font-weight: 600;
+    font-size: 1.3rem;
+}
+
+/* ── Barre de progression ── */
+.stProgress > div > div > div {
+    background-color: #8D6E63;
+}
+
+.stProgress label {
+    color: #5D4037 !important;
+}
+
+/* ── Métriques ── */
+.metric-box {
+    background: linear-gradient(135deg, #FFFFFF, #F5F0EB);
+    border-radius: 10px;
+    padding: 1rem;
+    text-align: center;
+    border: 1px solid #E8E0D8;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.04);
+    transition: transform 0.15s;
+}
+
+.metric-box:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.08);
+}
+
+.metric-box .metric-value {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: #3D3D3D;
+}
+
+.metric-box .metric-label {
+    font-size: 0.8rem;
+    color: #8D6E63;
+    margin-top: 0.2rem;
+}
+
+/* ── Tags badges ── */
+.tag {
+    display: inline-block;
+    padding: 0.2rem 0.6rem;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 500;
+}
+
+.tag-jumia {
+    background: #FFF3E0;
+    color: #E65100;
+}
+
+.tag-trustpilot {
+    background: #E3F2FD;
+    color: #1565C0;
+}
+
+.tag-manual {
+    background: #F3E5F5;
+    color: #6A1B9A;
+}
+
+/* ── Footer ── */
+.app-footer {
+    text-align: center;
+    padding: 2rem 0 0.5rem 0;
+    border-top: 1px solid #D7CCC8;
+    margin-top: 2rem;
+    color: #A1887F;
+    font-size: 0.8rem;
+}
+
+/* ── Info box ── */
+.info-box {
+    background: linear-gradient(135deg, #F5F0EB, #EDE7DC);
+    border-left: 4px solid #8D6E63;
+    padding: 0.8rem 1rem;
+    border-radius: 4px;
+    margin: 0.5rem 0;
+    font-size: 0.9rem;
+    color: #5D4037 !important;
+}
+
+.info-box b {
+    color: #3D3D3D;
+}
+
+/* ── Success / Info / Warning / Error Streamlit ── */
+div.stAlert {
+    border-radius: 8px;
+    border-left-width: 4px;
+}
+
+div.stAlert p {
+    color: inherit;
+}
+
+/* ── Divider ── */
+hr {
+    border-color: #D7CCC8;
+}
+
+/* ── Expander ── */
+div[data-testid="stExpander"] {
+    border: 1px solid #E8E0D8;
+    border-radius: 8px;
+    background: #FFFFFF;
+}
+
+div[data-testid="stExpander"] summary {
+    color: #3D3D3D;
+    font-weight: 500;
+}
+
+div[data-testid="stExpander"] div {
+    color: #3D3D3D;
+}
+
+/* ── Metric widget ── */
+div[data-testid="stMetricValue"] {
+    color: #3D3D3D !important;
+    font-size: 1.2rem;
+    font-weight: 600;
+}
+
+div[data-testid="stMetricLabel"] {
+    color: #8D6E63 !important;
+    font-size: 0.85rem;
+}
+
+/* ── Page links (sidebar navigation) ── */
+a[data-testid="stPageLink"] {
+    color: #5D4037 !important;
+    font-weight: 500;
+}
+
+a[data-testid="stPageLink"]:hover {
+    color: #8D6E63 !important;
+}
+
+a[data-testid="stPageLink"] p {
+    color: inherit !important;
+}
+
+/* ── Dataframes (Dashboard) ── */
+div[data-testid="stDataFrame"] {
+    border: 1px solid #E8E0D8;
+    border-radius: 8px;
+}
+
+div[data-testid="stDataFrame"] th {
+    background-color: #F5F0EB;
+    color: #3D3D3D !important;
+    font-weight: 600;
+}
+
+div[data-testid="stDataFrame"] td {
+    color: #3D3D3D !important;
+}
+
+/* ── Selectbox (dropdowns) ── */
+div[data-baseweb="select"] {
+    border-color: #D7CCC8;
+}
+
+div[data-baseweb="select"] span {
+    color: #3D3D3D !important;
+}
+
+/* ── Checkbox ── */
+div.stCheckbox label {
+    color: #5D4037 !important;
+}
+
+/* ── Markdown headers ── */
+h1, h2, h3, h4, h5, h6 {
+    color: #3D3D3D;
+}
+
+/* ── Paragraphs and spans ── */
+p, span, li, div {
+    color: #3D3D3D;
+}
+
+/* ── Ensure sidebar text is always visible ── */
+.css-1d391kg, .css-1lcbmhc, .css-1adrfps {
+    color: #3D3D3D !important;
+}
+
+/* ── Fix for Streamlit's new theming — force text color everywhere ── */
+* {
+    -webkit-text-fill-color: unset;
+}
+
+/* ── Responsive ── */
+@media (max-width: 768px) {
+    .app-header {
+        flex-direction: column;
+        text-align: center;
+    }
+    .result-positive,
+    .result-neutral,
+    .result-negative,
+    .result-error {
+        font-size: 1rem;
+    }
+}

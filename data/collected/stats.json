@@ -1,0 +1,15 @@
+{
+  "total_reviews": 35,
+  "total_corrected": 0,
+  "by_sentiment": {
+    "positive": 27,
+    "neutral": 0,
+    "negative": 8
+  },
+  "by_source": {
+    "manual": 1,
+    "jumia": 34,
+    "trustpilot": 0
+  },
+  "last_updated": "2026-06-18T19:22:21.513004"
+}

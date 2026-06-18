@@ -1,0 +1,1 @@
+"""Data collection module — scrapers for multi-source sentiment analysis."""
