@@ -7,6 +7,14 @@ _PROJECT_ROOT = _APP_ROOT.parent
 if str(_PROJECT_ROOT) not in sys.path:
     sys.path.insert(0, str(_PROJECT_ROOT))
 
+# Streamlit exécute ce script sous le nom de module « app », ce qui masque le
+# package app/ : « from app.utils.* » échoue alors avec
+# "No module named 'app.utils'; 'app' is not a package".
+# On rend le nom au vrai package avant d'importer ses sous-modules.
+# Idempotent : une fois le package en place, la condition devient fausse.
+if "app" in sys.modules and not hasattr(sys.modules["app"], "__path__"):
+    del sys.modules["app"]
+
 import streamlit as st
 
 st.set_page_config(
