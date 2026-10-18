@@ -1,408 +1,293 @@
-# 🔍 SentimentsLoupe — Analyse de Sentiment Cross-Langue
+# SentimentsLoupe
 
-[![Python](https://img.shields.io/badge/Python-3.10%2B-blue)](https://python.org)
-[![scikit-learn](https://img.shields.io/badge/scikit--learn-1.6.1-orange)](https://scikit-learn.org)
-[![Streamlit](https://img.shields.io/badge/Streamlit-1.58.0-red)](https://streamlit.io)
-[![PyTorch](https://img.shields.io/badge/PyTorch-2.12.0-ee4c2c)](https://pytorch.org)
-[![Transformers](https://img.shields.io/badge/🤗_Transformers-5.9.0-yellow)](https://huggingface.co)
+**Une application d'analyse de sentiment qui ne s'arrête pas à une seule langue.**
 
-**SentimentsLoupe** est une application d'analyse de sentiment cross-langue développée dans le cadre d'un Projet de Fin d'Année (PFA) à l'EMSI. Le système compare deux approches de Machine Learning — classique (TF-IDF) et moderne (Transformers) — pour analyser des avis clients en anglais et en français.
+[![Python](https://img.shields.io/badge/Python-3.10%2B-3776AB?logo=python&logoColor=white)](https://www.python.org)
+[![Streamlit](https://img.shields.io/badge/Streamlit-App-FF4B4B?logo=streamlit&logoColor=white)](https://streamlit.io)
+[![scikit-learn](https://img.shields.io/badge/scikit--learn-ML-F7931E?logo=scikitlearn&logoColor=white)](https://scikit-learn.org)
+[![PyTorch](https://img.shields.io/badge/PyTorch-Transformer-EE4C2C?logo=pytorch&logoColor=white)](https://pytorch.org)
+[![GitHub](https://img.shields.io/badge/GitHub-aymenichqa-181717?logo=github&logoColor=white)](https://github.com/aymenichqa)
 
-> 👨‍💻 **Auteurs :** Aymen Ichqarrane & Ihssane Moutchou  
-> 🎓 **Établissement :** EMSI — Filière IIR  
-> 📅 **Année :** Mai 2026
+SentimentsLoupe est le projet de fin d'année (PFA) que j'ai réalisé à l'**EMSI**, en filière IIR, avec Ihssane Moutchou. L'idée de départ est simple : les outils d'analyse de sentiment marchent bien… tant que vous restez sur le site et la langue sur lesquels ils ont été entraînés. Nous avons voulu mesurer exactement **où** ça casse, et voir si un modèle multilingue pouvait réparer la casse.
 
----
-
-## 📋 Table des matières
-
-- [Aperçu du projet](#-aperçu-du-projet)
-- [Fonctionnalités](#-fonctionnalités)
-- [Résultats clés](#-résultats-clés)
-- [Architecture du projet](#-architecture-du-projet)
-- [Méthodologie](#-méthodologie)
-- [Installation](#-installation)
-- [Utilisation](#-utilisation)
-- [Structure du projet](#-structure-du-projet)
-- [Technologies utilisées](#-technologies-utilisées)
-- [Roadmap](#-roadmap)
-- [Limites et perspectives](#-limites-et-perspectives)
+> **En résumé :** changer de langue coûte plus cher (−0.31 F1) que changer de site (−0.22 F1). Le vrai obstacle n'est pas le domaine, c'est la langue — et XLM-RoBERTa réduit nettement cet écart.
 
 ---
 
-## 🎯 Aperçu du projet
+## Sommaire
 
-Face à la diversité des sources d'avis clients et des langues utilisées, **SentimentsLoupe** propose un pipeline complet d'analyse de sentiment : de la collecte des données (scraping Jumia et Trustpilot) à la visualisation des résultats (dashboard interactif), en passant par la comparaison de deux approches de Machine Learning.
-
-Le projet démontre que le **gap lié à la langue** (anglais → français : -0.31 F1) est plus grand que le **gap lié au domaine** (Flipkart → Trustpilot : -0.22 F1), et qu'un modèle Transformer multilingue (XLM-RoBERTa) permet de réduire significativement ce gap.
-
----
-
-## ✨ Fonctionnalités
-
-### 🖥️ Application Streamlit (5 pages)
-
-| Page | Fonctionnalité |
-|:-----|:---------------|
-| **🏠 Accueil** | Présentation du projet avec scores clés |
-| **🔍 Analyse** | Saisie de texte libre + Scraping automatique (Jumia / Trustpilot) + Feedback utilisateur (✅ / ❌) |
-| **📚 Collection** | Statistiques des données collectées, graphiques de répartition, export CSV |
-| **📊 Dashboard** | Comparaison des métriques TF-IDF vs XLM-RoBERTa, tableau des 18 modèles, graphiques |
-| **ℹ️ À propos** | Présentation détaillée du projet, datasets, modèles, phases |
-
-### 🤖 Double modèle
-
-| Modèle | Description | Performance (F1) |
-|:-------|:------------|:-----------------:|
-| **TF-IDF + LogisticRegression** | Approche classique : 15 000 tokens TF-IDF + 6 features numériques | **0.65** sur Flipkart |
-| **XLM-RoBERTa** | Transformer multilingue (279M params) fine-tuné sur 8 929 avis | **0.57** sur Jumia |
-
-### 📊 Résultats du scraping
-
-- Scraping Jumia (pages listing + pages produits individuelles)
-- Scraping Trustpilot (via Playwright)
-- Détection automatique du type d'URL (listing vs produit)
-- Sauvegarde automatique des avis dans la collection
-
-### 💾 Collecte de données
-
-- Chaque analyse est sauvegardée dans `data/collected/reviews.csv`
-- L'utilisateur peut corriger les prédictions via le feedback (✅ / ❌)
-- Les corrections sont enregistrées pour un réentraînement futur
-- Export CSV des données collectées
+- [Le problème](#le-problème)
+- [Ce que fait l'application](#ce-que-fait-lapplication)
+- [Les résultats](#les-résultats)
+- [Démarrage rapide](#démarrage-rapide)
+- [Prendre en main l'app](#prendre-en-main-lapp)
+- [Comment c'est organisé](#comment-cest-organisé)
+- [La méthode derrière tout ça](#la-méthode-derrière-tout-ça)
+- [Ce qui ne marche pas encore](#ce-qui-ne-marche-pas-encore)
+- [Ce qui arrive](#ce-qui-arrive)
+- [Auteurs et contact](#auteurs-et-contact)
 
 ---
 
-## 🏆 Résultats clés
+## Le problème
 
-### Phase 1 — TF-IDF Champion (18 modèles comparés)
+Un avis écrit en anglais sur Flipkart, le même ressenti exprimé en français sur Trustpilot, ou en darija marocaine sur Jumia : pour un humain c'est la même chose. Pour un modèle entraîné sur le premier site, ce n'est pas du tout la même chose.
 
-| Stratégie | LogisticRegression | LinearSVC | MultinomialNB | SVM-Calibré |
-|:----------|:-----------------:|:---------:|:-------------:|:-----------:|
-| **none** (baseline) | 0.57 | 0.60 | 0.61 | 0.54 |
-| **class_weight** | **0.65** 🏆 | 0.57 | 0.61 | 0.56 |
-| **random_over** | 0.64 | 0.61 | 0.62 | 0.62 |
-| **SMOTE** | 0.64 | 0.59 | 0.61 | 0.62 |
-| **SMOTETomek** | 0.63 | 0.60 | 0.61 | 0.61 |
+On a donc construit un pipeline complet pour y voir clair, de la collecte jusqu'au dashboard :
 
-### Phase 2 — Gaps Domaine vs Langue
-
-| Test | F1 | Gap | Interprétation |
-|:-----|:--:|:---:|:---------------|
-| Flipkart (entraînement) | 0.65 | — | Référence |
-| Trustpilot (même langue) | 0.43 | -0.22 | **Gap DOMAINE** |
-| Jumia (langue différente) | 0.34 | -0.31 | **Gap LANGUE** 🔑 |
-
-> **🔑 Découverte clé :** Le gap **LANGUE** (0.31) est supérieur au gap **DOMAINE** (0.22).  
-> Le vrai problème n'est pas le site, c'est la **langue**.
-
-### Phase 2B — XLM-RoBERTa
-
-| Modèle | Trustpilot F1 | Jumia F1 | Gain vs P1 |
-|:-------|:------------:|:--------:|:----------:|
-| **TF-IDF champion** | 0.43 | 0.34 | — |
-| **TF-IDF amélioré** | — (dans train) | 0.38 | +0.04 |
-| **XLM-RoBERTa 🚀** | **0.60** | **0.57** | **+0.23 (+67%)** |
+1. **Collecter** des avis depuis plusieurs sources (scraping Jumia et Trustpilot)
+2. **Comparer** deux familles de modèles : classique (TF-IDF) et moderne (Transformers)
+3. **Isoler** l'effet du site de l'effet de la langue, en les testant séparément
+4. **Mesurer** ce que ça donne en conditions réelles, et l'afficher proprement dans une app
 
 ---
 
-## 🏗 Architecture du projet
+## Ce que fait l'application
 
-L'architecture de SentimentsLoupe repose sur quatre couches :
+L'interface Streamlit comporte cinq pages :
 
-```
-┌──────────────────────────────────────────────────────────────┐
-│             NOTEBOOKS (expérimentation)                       │
-│  01_EDA → 02_Prep. → 03_Models → 04_Results → 05_Scrap. → 06_XLM-R │
-│  Génèrent : champion_model.pkl, feature_engineer.pkl,        │
-│  phase1/2_metrics.json, xlm_roberta_finetuned/               │
-└──────────────────────────┬───────────────────────────────────┘
-                           │ Modèles sauvegardés
-                           ▼
-┌──────────────────────────────────────────────────────────────┐
-│                APPLICATION STREAMLIT (app/)                    │
-│  ┌──────────┐  ┌────────────┐  ┌──────────┐  ┌───────────┐ │
-│  │ Accueil  │  │ Analyse    │  │Collect.  │  │ Dashboard │ │
-│  │ app.py   │  │ 01_Analyse │  │04_Collec │  │02_Dash.  │ │
-│  └──────────┘  └─────┬──────┘  └──────────┘  └───────────┘ │
-└──────────────────────┼───────────────────────────────────────┘
-                       │
-┌──────────────────────┼───────────────────────────────────────┐
-│     COUCHE MÉTIER (app/utils/ + src/)                        │
-│  ┌──────────┐ ┌──────────┐ ┌──────────┐ ┌──────────────────┐│
-│  │predictor │ │ scraper_ │ │data_col. │ │Jumia + Trustpilot││
-│  │   .py    │ │ embed.py │ │  .py     │ │   Scrapers       ││
-│  └──────────┘ └──────────┘ └──────────┘ └──────────────────┘│
-│  ┌──────────┐ ┌──────────┐ ┌──────────┐ ┌──────────────────┐│
-│  │TextClean │ │Feature   │ │ModelLoader│ │ ImbalanceExper. ││
-│  │  er.py   │ │Engineer  │ │   .py     │ │    .py          ││
-│  └──────────┘ └──────────┘ └──────────┘ └──────────────────┘│
-└──────────────────────────────────────────────────────────────┘
-                           │
-┌──────────────────────────┼───────────────────────────────────┐
-│     COUCHE STOCKAGE (data/)                                   │
-│  ┌──────────┐  ┌──────────┐  ┌──────────┐  ┌──────────────┐ │
-│  │ models/  │  │  raw/    │  │processed/│  │ collected/   │ │
-│  │ champion │  │ flipkart │  │ cleaned  │  │ reviews.csv  │ │
-│  │ xlm_ro   │  │ jumia    │  │ .csv     │  │ stats.json   │ │
-│  └──────────┘  └──────────┘  └──────────┘  └──────────────┘ │
-└──────────────────────────────────────────────────────────────┘
-```
+| Page | Ce qu'on y fait |
+|:--|:--|
+| 🏠 **Accueil** | Présentation du projet et des scores clés |
+| 🔍 **Analyse** | Saisir un texte libre ou une URL (Jumia / Trustpilot), choisir le modèle, analyser |
+| 📚 **Collection** | Consulter les statistiques des données collectées, exporter en CSV |
+| 📊 **Dashboard** | Comparer TF-IDF et XLM-RoBERTa sur l'ensemble des métriques |
+| ℹ️ **À propos** | Détails du projet, des datasets et des modèles |
 
-### Flux de données (analyse texte libre)
+Trois points méritent d'être signalés :
 
-1. **Utilisateur** saisit un texte dans l'interface Streamlit
-2. **predict()** dans `predictor.py` charge le modèle choisi (TF-IDF ou XLM-RoBERTa)
-3. **Si TF-IDF** : TextCleaner → FeatureEngineer (TF-IDF 15K + 6 features) → LogisticRegression
-4. **Si XLM-RoBERTa** : Tokenizer → Modèle Transformer → softmax
-5. **Résultat** affiché + sauvegardé dans `data_collector.py`
-6. **Feedback** : l'utilisateur peut corriger → correction sauvegardée
+- **Le scraping s'adapte seul.** L'URL collée est analysée pour détecter s'il s'agit d'une page listing ou d'une page produit, et le bon extracteur se lance.
+- **Le feedback alimente le modèle.** Chaque analyse est enregistrée dans `data/collected/reviews.csv`, et l'utilisateur peut corriger une prédiction avec ✅ / ❌. Ces corrections sont conservées pour un futur réentraînement.
+- **Deux modèles cohabitent.** On bascule de l'un à l'autre dans l'interface sans rien redémarrer.
 
 ---
 
-## 📚 Méthodologie
+## Les résultats
 
-La réalisation de SentimentsLoupe s'est appuyée sur une démarche progressive et itérative, combinant trois approches complémentaires :
+### Phase 1 — Trouver un champion parmi 18 modèles TF-IDF
 
-### CRISP-DM (data science)
+On croise 5 stratégies de gestion du déséquilibre de classes avec 4 classifieurs (F1) :
 
-Le cycle CRISP-DM (Cross-Industry Standard Process for Data Mining) a structuré la partie data science en six étapes : compréhension du problème, exploration des données, préparation, modélisation, évaluation et déploiement. Son caractère itératif a permis d'améliorer progressivement les performances du système.
+| Stratégie | LogisticRegression | LinearSVC | MultinomialNB | SVM calibré |
+|:--|:-:|:-:|:-:|:-:|
+| Aucune (baseline) | 0.57 | 0.60 | 0.61 | 0.54 |
+| **Pondération des classes** | **0.65** 🏆 | 0.57 | 0.61 | 0.56 |
+| RandomOverSampler | 0.64 | 0.61 | 0.62 | 0.62 |
+| SMOTE | 0.64 | 0.59 | 0.61 | 0.62 |
+| SMOTETomek | 0.63 | 0.60 | 0.61 | 0.61 |
 
-### Agile (travail en binôme)
+**Champion :** `TF-IDF (15 000 tokens) + 6 features numériques + LogisticRegression` → F1 de **0.65** sur Flipkart.
 
-Le projet a été découpé en 6 sprints de 2 à 3 semaines, facilitant la répartition des tâches entre les deux membres de l'équipe et l'adaptation continue aux difficultés rencontrées.
+### Phase 2 — Séparer l'effet du site de l'effet de la langue
 
-| Sprint | Durée | Contenu | Livrable |
-|:------:|:-----:|:--------|:---------|
-| **1 — Exploration** | 3 sem | EDA, définition des métriques | Notebook 01 |
-| **2 — Preprocessing** | 2 sem | TextCleaner, FeatureEngineering | Notebook 02, pipeline |
-| **3 — Modélisation** | 3 sem | 18 modèles TF-IDF, champion | Notebook 03, champion.pkl |
-| **4 — Multi-sources** | 3 sem | Scraping Jumia + Trustpilot, gaps | Notebooks 04 & 05 |
-| **5 — Phase 2B & App** | 4 sem | XLM-RoBERTa, Streamlit, dashboard | Notebook 06, app |
-| **6 — Finalisation** | 2 sem | Tests, collecte, rapport | App finale, soutenance |
+C'est la partie la plus intéressante : on garde le même modèle, on le confronte à des données qu'il n'a jamais vues, et on regarde ce qu'il perd.
 
-### Gantt & PERT (planification)
+| Test | F1 | Écart vs référence | Ce que ça mesure |
+|:--|:-:|:-:|:--|
+| Flipkart (entraînement) | 0.65 | — | La référence |
+| Trustpilot (même langue, autre site) | 0.43 | −0.22 | L'effet **domaine** |
+| Jumia (autre site, autre langue) | 0.34 | −0.31 | L'effet **langue** 🔑 |
 
-Le diagramme de Gantt a permis de visualiser les phases dans le temps, et l'analyse PERT a identifié le chemin critique pour garantir le respect des délais.
+> **La découverte :** l'écart lié à la langue (0.31) dépasse celui lié au domaine (0.22). Affiner le modèle sur un seul site ne suffit pas tant que la barrière linguistique reste en place.
 
-### Répartition des responsabilités
+### Phase 2B — Ce que change un Transformer multilingue
 
-- **Aymen Ichqarrane** : préparation des données, développement des modèles de Machine Learning, expérimentation, évaluation et analyse des performances
-- **Ihssane Moutchou** : développement des modules de scraping, intégration des données et développement de l'application Streamlit
+XLM-RoBERTa (279 M de paramètres, pré-entraîné sur 100 langues) a été fine-tuné sur 8 929 avis — dont du français qui n'était pas dans l'entraînement du modèle classique.
+
+| Modèle | Trustpilot F1 | Jumia F1 | Gain sur Jumia |
+|:--|:-:|:-:|:-:|
+| Champion TF-IDF | 0.43 | 0.34 | — |
+| XLM-RoBERTa | **0.60** | **0.57** | **+0.23 (+67 %)** |
+
+Le modèle comprend du français sans l'avoir vu à l'entraînement. C'est exactement l'effet recherché.
 
 ---
 
-## 💻 Installation
+## Démarrage rapide
 
 ### Prérequis
 
-- Python 3.10+
+- Python 3.10 ou supérieur
 - Git
-- (Optionnel) GPU pour accélérer le fine-tuning
+- Un GPU est un plus pour le fine-tuning, mais pas nécessaire pour faire tourner l'app
 
-### Étapes
+### Installation
 
 ```bash
 # 1. Cloner le dépôt
-git clone https://github.com/aymenichqa/sentimentsloupe.git
-cd sentimentsloupe
+git clone https://github.com/aymenichqa/Pfa_project.git
+cd Pfa_project
 
-# 2. Créer et activer l'environnement virtuel
-python -m venv .venv
+# 2. Créer et activer un environnement virtuel
+python -m venv venv
+
 # Windows
-.\.venv\Scripts\Activate.ps1
-# Linux/Mac
-source .venv/bin/activate
+venv\Scripts\activate
+# Linux / macOS
+source venv/bin/activate
 
 # 3. Installer les dépendances
 pip install -r requirements.txt
 
-# 4. (Optionnel) Installer Playwright pour le scraping Trustpilot
+# 4. (Optionnel) nécessaire pour le scraping Trustpilot, qui passe par un vrai navigateur
 playwright install chromium
 
-# 5. Générer ou télécharger les modèles (obligatoire avant la première utilisation)
+# 5. Générer les modèles — obligatoire avant la première utilisation
 python scripts/download_models.py
 
 # 6. Lancer l'application
 streamlit run app/app.py
 ```
 
-### ⚠️ Modèles volumineux
+Puis ouvrez [http://localhost:8501](http://localhost:8501).
 
-Les fichiers suivants sont **non versionnés** sur GitHub (taille > 100 Mo) :
-- `data/models/champion_model.pkl` (~150 Mo)
-- `data/models/feature_engineer.pkl` (pipelines + TF-IDF ~350 Mo)
-- `data/models/xlm_roberta_finetuned/model.safetensors` (~1.06 Go)
+### ⚠️ Les modèles ne sont pas dans le dépôt
 
-Exécutez `python scripts/download_models.py` pour les générer automatiquement à partir des notebooks.
+GitHub refuse les fichiers de plus de 100 Mo, et les nôtres dépassent largement la limite :
+
+| Fichier | Taille approximative |
+|:--|:-:|
+| `data/models/champion_model.pkl` | ~150 Mo |
+| `data/models/feature_engineer.pkl` | ~350 Mo |
+| `data/models/xlm_roberta_finetuned/model.safetensors` | ~1.06 Go |
+
+`scripts/download_models.py` les recrée en exécutant les notebooks dans l'ordre (préprocessing → modèles → analyse → fine-tuning). Comptez du temps et un peu de mémoire : c'est la partie lourde du projet.
 
 ---
 
-## 🚀 Utilisation
+## Prendre en main l'app
 
-### Lancer l'application
-
-```bash
-cd sentimentsloupe
-streamlit run app/app.py
-```
-
-Puis ouvrez http://localhost:8501 dans votre navigateur.
-
-### Tester les fonctionnalités
-
-1. **Analyse texte libre** : allez dans "🔍 Analyse", tapez un avis, sélectionnez le modèle, cliquez "Analyser"
-2. **Scraping Jumia** : collez une URL Jumia (listing ou produit), cliquez "Analyser"
-3. **Scraping Trustpilot** : collez une URL Trustpilot, cliquez "Analyser" (nécessite `playwright install chromium`)
-4. **Collection** : visualisez les données collectées, exportez en CSV
-5. **Dashboard** : consultez les métriques comparatives des modèles
-
-### Exemples de textes à tester
+Quelques textes pour vérifier que tout tourne, avec le comportement attendu :
 
 ```text
-# XLM-RoBERTa (comprend le français et l'anglais)
-"this product is amazing" → positif
-"had l produit zwine bzzaf" → positif (darija)
-"c'est vraiment nul" → négatif
-
-# TF-IDF (anglais uniquement)
-"this product is amazing" → positif
-"terrible quality" → négatif
-"it is ok I guess not bad" → neutre
+"this product is amazing"     →  positif   (les deux modèles)
+"terrible quality"            →  négatif   (les deux modèles)
+"c'est vraiment nul"          →  négatif   (XLM-RoBERTa uniquement)
+"had l produit zwine bzzaf"   →  positif   (XLM-RoBERTa, en darija)
 ```
+
+Le TF-IDF ne comprend que l'anglais — c'est voulu, c'est précisément ce que le projet illustre.
 
 ---
 
-## 📁 Structure du projet
+## Comment c'est organisé
 
 ```
-sentimentsloupe/
-├── app/                          # Application Streamlit
+Pfa_project/
+├── app/                          # L'application Streamlit
 │   ├── app.py                    # Page d'accueil (précharge les modèles)
-│   ├── pages/
-│   │   ├── 01_Analyse.py         # Analyse + Scraping + Feedback
-│   │   ├── 02_Dashboard.py       # Métriques comparatives
-│   │   ├── 03_A_Propos.py        # Informations projet
-│   │   └── 04_Collection.py      # Données collectées + Export
-│   ├── utils/
-│   │   ├── predictor.py          # Chargement et prédiction (TF-IDF + XLM-R)
-│   │   ├── scraper_embed.py      # Interface unifiée des scrapers
-│   │   ├── model_loader.py       # Chargement des modèles sauvegardés
-│   │   └── data_collector.py     # Sauvegarde, feedback, statistiques
-│   └── assets/
-│       ├── style.css             # Design personnalisé (thème beige/marron)
-│       └── logo.png              # Logo de l'application
+│   ├── pages/                    # Les 5 pages de l'app
+│   ├── utils/                    # predictor, scrapers, data_collector
+│   └── assets/                   # style.css + logo
 │
-├── notebooks/                    # Notebooks Jupyter (expérimentation)
-│   ├── 01_EDA_flipkart.ipynb     # Analyse exploratoire
-│   ├── 02_preprocessing.ipynb    # Nettoyage et feature engineering
-│   ├── 03_baseline_models.ipynb  # 18 modèles TF-IDF
-│   ├── 04_results_analysis.ipynb # Analyse des gaps domaine vs langue
-│   ├── 05_multisource_scraping.ipynb # Scraping Jumia + Trustpilot
-│   └── 06_xlm_roberta_finetuning.ipynb # Fine-tuning XLM-RoBERTa
+├── notebooks/                    # L'expérimentation, dans l'ordre
+│   ├── 01_EDA_flipkart.ipynb     # Exploration des données
+│   ├── 02_preprocessing.ipynb    # Nettoyage + feature engineering
+│   ├── 03_baseline_models.ipynb  # Les 18 modèles TF-IDF
+│   ├── 04_results_analysis.ipynb # Les écarts domaine vs langue
+│   ├── 05_multisource_scraping.ipynb    # Jumia + Trustpilot
+│   └── 06_xlm_roberta_finetuning.ipynb  # Fine-tuning du multilingue
 │
-├── src/                          # Code source (pipelines ML + scraping)
-│   ├── config/
-│   │   └── settings.py           # Configuration globale (chemins, labels, hyperparams)
-│   ├── preprocessing/
-│   │   ├── text_cleaner.py       # Nettoyage des textes
-│   │   ├── feature_engineering.py  # TF-IDF + features numériques
-│   │   └── source_normalizer.py  # Normalisation multi-sources
-│   ├── data_collection/
-│   │   ├── base_scraper.py       # Classe abstraite pour les scrapers
-│   │   ├── jumia_fix_scraper.py  # Scraping Jumia (listing + produit)
-│   │   └── trustpilot_scraper.py # Scraping Trustpilot (Playwright)
-│   └── models/
-│       └── imbalance_strategies.py # 5 stratégies × 4 classifieurs = 18 modèles
+├── src/                          # Le code réutilisable
+│   ├── config/settings.py        # Chemins, labels, hyperparamètres
+│   ├── preprocessing/            # TextCleaner, FeatureEngineer, normalisation
+│   ├── data_collection/          # Scrapers (base abstraite, Jumia, Trustpilot)
+│   ├── models/                   # Stratégies de déséquilibre
+│   └── utils/
 │
-├── data/                         # Données et modèles
-│   ├── raw/                      # Données brutes (CSV, Parquet)
+├── scripts/download_models.py    # Régénère les modèles volumineux
+├── data/
+│   ├── raw/                      # Données brutes
 │   ├── processed/                # Données nettoyées
-│   ├── models/                   # Modèles entraînés
-│   │   ├── champion_model.pkl    # Meilleur modèle TF-IDF (F1=0.65)
-│   │   ├── feature_engineer.pkl  # TF-IDF vectorizer fitté
-│   │   ├── phase1_metrics.json   # Résultats des 18 modèles
-│   │   ├── phase2_metrics.json   # Métriques XLM-RoBERTa
-│   │   ├── xlm_roberta_finetuned/ # Modèle XLM-RoBERTa fine-tuné
-│   │   └── plots/                # Graphiques générés par les notebooks
-│   └── collected/                # Données collectées par l'app
-│       ├── reviews.csv           # Toutes les analyses utilisateur
-│       ├── corrected.csv         # Corrections feedback
-│       └── stats.json            # Statistiques en temps réel
+│   ├── models/                   # Modèles entraînés + métriques + plots
+│   └── collected/                # Ce que l'app collecte (feedback inclus)
 │
-├── requirements.txt              # Dépendances Python
-├── .env                          # Configuration (RANDOM_STATE=42)
-├── .gitignore                    # Fichiers ignorés par Git
-└── README.md                     # Ce fichier
+└── requirements.txt
 ```
 
----
-
-## 🛠 Technologies utilisées
-
-| Technologie | Version | Usage |
-|:------------|:-------:|:------|
-| **Python** | 3.10+ | Langage principal |
-| **scikit-learn** | 1.6.1 | Pipeline TF-IDF, classifieurs, validation croisée |
-| **imbalanced-learn** | 0.13.0 | SMOTE, RandomOverSampler, SMOTETomek |
-| **PyTorch** | 2.12.0 | Moteur du modèle Transformer |
-| **Transformers** | 5.9.0 | XLM-RoBERTa (Hugging Face) |
-| **Streamlit** | 1.58.0 | Application web interactive |
-| **BeautifulSoup** | 4.14.3 | Scraping Jumia (HTML parsing) |
-| **Playwright** | 1.60.0 | Scraping Trustpilot (navigateur) |
-| **pandas** | 3.0.3 | Manipulation des données |
-| **numpy** | 2.4.6 | Calculs numériques |
-| **joblib** | 1.5.3 | Sauvegarde des modèles |
-| **matplotlib / seaborn** | — | Visualisations dans les notebooks |
+**Le principe :** les notebooks servent à explorer et à entraîner, `src/` contient le code réellement réutilisé, et `app/` ne fait que consommer les artefacts produits. Vous changez un modèle, vous régénérez les `.pkl`, l'app suit.
 
 ---
 
-## 🗺 Roadmap
+## La méthode derrière tout ça
 
-### Version actuelle (MVP) ✅
-- [x] Pipeline TF-IDF complet (18 modèles)
-- [x] Fine-tuning XLM-RoBERTa (F1=0.57 sur données françaises)
-- [x] Scraping Jumia (listing + pages produits)
-- [x] Scraping Trustpilot (Playwright)
-- [x] Application Streamlit (5 pages)
-- [x] Système de collecte de données + feedback
-- [x] Dashboard comparatif
+Au-delà du code, ce PFA s'est appuyé sur trois cadres :
 
-### Version 1.0 (perspectives)
-- [ ] Fine-tuning sur les données collectées via l'application
-- [ ] Correction du modèle pour la reconnaissance du darija
-- [ ] Déploiement cloud de l'application
+- **CRISP-DM** pour structurer la partie data science — compréhension, exploration, préparation, modélisation, évaluation, déploiement. Son caractère itératif nous a servi plusieurs fois : la phase 2 n'aurait jamais existé sans ce que la phase 1 nous avait appris.
+- **Agile** pour le travail en binôme — 6 sprints de 2 à 4 semaines, ce qui a permis de répartir les tâches et d'ajuster au fur et à mesure.
+- **Gantt et PERT** pour la planification et l'identification du chemin critique.
+
+| Sprint | Durée | Contenu | Livrable |
+|:--:|:--:|:--|:--|
+| 1 — Exploration | 3 sem | EDA, définition des métriques | Notebook 01 |
+| 2 — Preprocessing | 2 sem | TextCleaner, feature engineering | Notebook 02 |
+| 3 — Modélisation | 3 sem | 18 modèles TF-IDF | Notebook 03, champion.pkl |
+| 4 — Multi-sources | 3 sem | Scraping Jumia + Trustpilot, écarts | Notebooks 04 & 05 |
+| 5 — Phase 2B & App | 4 sem | XLM-RoBERTa, Streamlit, dashboard | Notebook 06, l'app |
+| 6 — Finalisation | 2 sem | Tests, collecte, rapport | App finale, soutenance |
+
+**Répartition du travail :**
+- **Aymen Ichqarrane** — préparation des données, modèles, expérimentation, évaluation
+- **Ihssane Moutchou** — modules de scraping, intégration des données, application Streamlit
+
+---
+
+## Ce qui ne marche pas encore
+
+On préfère le dire clairement plutôt que de laisser croire que c'est résolu :
+
+| Limite | Impact observé | Cause |
+|:--|:--|:--|
+| Darija mal reconnue | « khayb » prédit « positif » ❌ | Aucun avis darija dans le fine-tuning |
+| Test Jumia réduit | F1 plafonné à 0.57 | Seulement 60 avis pour le test |
+| Classe neutre peu détectée | F1 neutre = 0.38 | Dataset déséquilibré (81 % de positifs) |
+| Scraping Trustpilot instable | Parfois bloqué | Protections Cloudflare côté site |
+
+**Ce qu'on retient pour la soutenance :** on sait faire de l'analyse de sentiment cross-langue avec des moyens limités. Le vrai manque, c'est des données — surtout en darija. Mais le concept est démontré, et le pipeline est prêt à intégrer plus de données via la collecte intégrée à l'app.
+
+---
+
+## Ce qui arrive
+
+- [ ] Réentraîner le modèle sur les données collectées via l'app
+- [ ] Améliorer la reconnaissance du darija
+- [ ] Mode batch pour analyser un fichier CSV en entier
 - [ ] API REST d'analyse de sentiment
-- [ ] Mode batch pour analyser des fichiers CSV complets
+- [ ] Déploiement en ligne
 
 ---
 
-## ⚠️ Limites et perspectives
+## Technologies utilisées
 
-### Limites identifiées
+| Technologie | Usage |
+|:--|:--|
+| **Python 3.10+** | Langage principal |
+| **scikit-learn** | Pipeline TF-IDF, classifieurs, validation croisée |
+| **imbalanced-learn** | SMOTE, RandomOverSampler, SMOTETomek |
+| **PyTorch + Transformers** | Fine-tuning de XLM-RoBERTa |
+| **Streamlit** | Application web interactive |
+| **BeautifulSoup** | Scraping Jumia (parsing HTML) |
+| **Playwright** | Scraping Trustpilot (navigateur headless) |
+| **pandas / numpy** | Manipulation des données |
+| **matplotlib / seaborn / plotly** | Visualisations |
 
-| Limite | Impact | Cause |
-|:-------|:------:|:------|
-| **Reconnaissance du darija** limitée | "khayb" prédit "positif" ❌ | 0 avis darija dans le fine-tuning |
-| **Dataset Jumia trop petit** | F1 limité à 0.57 | Seulement 60 avis pour le test |
-| **Classe neutre peu détectée** | F1 neutre = 0.38 | Déséquilibre du dataset (81% positifs) |
-| **Trustpilot bloqué** | Scraping impossible | Protection Cloudflare |
+---
 
-### Ce qu'il faut retenir pour la soutenance
+## Auteurs et contact
 
-> *"Notre projet montre qu'on peut faire de l'analyse de sentiment cross-langue avec des moyens limités. Le vrai défi est le manque de données pour le darija. Mais on a prouvé le concept : XLM-RoBERTa peut comprendre le français sans l'avoir vu à l'entraînement, et notre pipeline est prêt à intégrer plus de données via la collecte intégrée à l'application."*
+**Aymen Ichqarrane** — développement ML, modèles, expérimentation
+🐙 [github.com/aymenichqa](https://github.com/aymenichqa) · ✉️ [aymenichqa@gmail.com](mailto:aymenichqa@gmail.com)
+
+**Ihssane Moutchou** — scraping, application Streamlit, collecte de données
+
+Projet réalisé dans le cadre du **Projet de Fin d'Année** — EMSI, filière IIR — Mai 2026.
 
 ---
 
-## 📬 Contact
+### Licence
 
-- **Aymen Ichqarrane** — Développement ML, modèles, expérimentation
-- **Ihssane Moutchou** — Scraping, application Streamlit, collecte de données
-
-Projet réalisé dans le cadre du **Projet de Fin d'Année** — EMSI, Filière IIR — Mai 2026.
-
----
+Dépôt publié à des fins de présentation académique. N'hésitez pas à vous en inspirer pour vos propres projets.
 
 <div align="center">
-<strong>SentimentsLoupe</strong> — De TF-IDF aux Transformers, du scraping au dashboard.
+  <sub>SentimentsLoupe — De TF-IDF aux Transformers, du scraping au dashboard.</sub>
 </div>
