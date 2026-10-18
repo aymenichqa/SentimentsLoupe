@@ -115,8 +115,8 @@ Le modèle comprend du français sans l'avoir vu à l'entraînement. C'est exact
 
 ```bash
 # 1. Cloner le dépôt
-git clone https://github.com/aymenichqa/Pfa_project.git
-cd Pfa_project
+git clone https://github.com/aymenichqa/SentimentsLoupe.git
+cd SentimentsLoupe
 
 # 2. Créer et activer un environnement virtuel
 python -m venv venv
@@ -175,7 +175,7 @@ Le TF-IDF ne comprend que l'anglais — c'est voulu, c'est précisément ce que 
 ## Comment c'est organisé
 
 ```
-Pfa_project/
+SentimentsLoupe/
 ├── app/                          # L'application Streamlit
 │   ├── app.py                    # Page d'accueil (précharge les modèles)
 │   ├── pages/                    # Les 5 pages de l'app
