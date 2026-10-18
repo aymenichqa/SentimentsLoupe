@@ -23,7 +23,7 @@ logs/
 .idea/
 *.swp
 
-# Espace de travail Freebuff
+# Espace de travail local (non versionné)
 .freebuff/
 
 # OS
