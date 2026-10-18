@@ -64,7 +64,7 @@ Trois points méritent d'être signalés :
 
 ## Les résultats
 
-### Phase 1 — Trouver un champion parmi 18 modèles TF-IDF
+### Phase 1 — Trouver un champion parmi 20 modèles TF-IDF
 
 On croise 5 stratégies de gestion du déséquilibre de classes avec 4 classifieurs (F1) :
 
@@ -143,15 +143,17 @@ Puis ouvrez [http://localhost:8501](http://localhost:8501).
 
 ### ⚠️ Les modèles ne sont pas dans le dépôt
 
-GitHub refuse les fichiers de plus de 100 Mo, et les nôtres dépassent largement la limite :
+Trois fichiers sont nécessaires au fonctionnement de l'app mais volontairement exclus du dépôt :
 
-| Fichier | Taille approximative |
-|:--|:-:|
-| `data/models/champion_model.pkl` | ~150 Mo |
-| `data/models/feature_engineer.pkl` | ~350 Mo |
-| `data/models/xlm_roberta_finetuned/model.safetensors` | ~1.06 Go |
+| Fichier | Taille réelle | Règle d'exclusion |
+|:--|:-:|:--|
+| `data/models/champion_model.pkl` | 354 Ko | `*.pkl` |
+| `data/models/feature_engineer.pkl` | 602 Ko | `*.pkl` |
+| `data/models/xlm_roberta_finetuned/model.safetensors` | 1.1 Go | `*.safetensors` (et bien au-delà des 100 Mo admis par GitHub) |
 
-`scripts/download_models.py` les recrée en exécutant les notebooks dans l'ordre (préprocessing → modèles → analyse → fine-tuning). Comptez du temps et un peu de mémoire : c'est la partie lourde du projet.
+Les deux `.pkl` sont légers : rien ne les empêcherait techniquement d'être versionnés, ils sont simplement couverts par une règle `*.pkl` générique. Seul le poids de XLM-RoBERTa dépasse réellement la limite de GitHub.
+
+`scripts/download_models.py` les recrée en exécutant les notebooks dans l'ordre (préprocessing → modèles → analyse → fine-tuning). C'est l'étape la plus longue du projet.
 
 ---
 
@@ -183,7 +185,7 @@ Pfa_project/
 ├── notebooks/                    # L'expérimentation, dans l'ordre
 │   ├── 01_EDA_flipkart.ipynb     # Exploration des données
 │   ├── 02_preprocessing.ipynb    # Nettoyage + feature engineering
-│   ├── 03_baseline_models.ipynb  # Les 18 modèles TF-IDF
+│   ├── 03_baseline_models.ipynb  # Les 20 modèles TF-IDF
 │   ├── 04_results_analysis.ipynb # Les écarts domaine vs langue
 │   ├── 05_multisource_scraping.ipynb    # Jumia + Trustpilot
 │   └── 06_xlm_roberta_finetuning.ipynb  # Fine-tuning du multilingue
@@ -221,7 +223,7 @@ Au-delà du code, ce PFA s'est appuyé sur trois cadres :
 |:--:|:--:|:--|:--|
 | 1 — Exploration | 3 sem | EDA, définition des métriques | Notebook 01 |
 | 2 — Preprocessing | 2 sem | TextCleaner, feature engineering | Notebook 02 |
-| 3 — Modélisation | 3 sem | 18 modèles TF-IDF | Notebook 03, champion.pkl |
+| 3 — Modélisation | 3 sem | 20 modèles TF-IDF | Notebook 03, champion.pkl |
 | 4 — Multi-sources | 3 sem | Scraping Jumia + Trustpilot, écarts | Notebooks 04 & 05 |
 | 5 — Phase 2B & App | 4 sem | XLM-RoBERTa, Streamlit, dashboard | Notebook 06, l'app |
 | 6 — Finalisation | 2 sem | Tests, collecte, rapport | App finale, soutenance |

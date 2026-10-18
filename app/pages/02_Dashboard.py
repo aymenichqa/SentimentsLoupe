@@ -159,7 +159,7 @@ st.bar_chart(chart_data, height=400)
 st.caption("Comparaison F1-Macro par source et par modèle")
 
 st.divider()
-st.markdown("### 🔬 Détail des 18 modèles Phase 1")
+st.markdown("### 🔬 Détail des 20 modèles Phase 1")
 
 if "all_results" in metrics_p1:
     rows = []

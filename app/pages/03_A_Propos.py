@@ -120,7 +120,7 @@ st.markdown(
     "<li><b>EDA</b> : Analyse exploratoire de Flipkart (20K avis, 81% positifs)</li>"
     "<li><b>Nettoyage</b> : TextCleaner (URLs, emojis, READ MORE)</li>"
     "<li><b>Feature Engineering</b> : TF-IDF 15K features + 6 features numériques</li>"
-    "<li><b>18 modèles testés</b> : 5 stratégies × 4 classifieurs</li>"
+    "<li><b>20 modèles testés</b> : 5 stratégies × 4 classifieurs</li>"
     "<li><b>Champion</b> : class_weight + LogisticRegression → F1 = 0.65</li>"
     "</ol></div>",
     unsafe_allow_html=True,
