@@ -23,6 +23,9 @@ logs/
 .idea/
 *.swp
 
+# Espace de travail Freebuff
+.freebuff/
+
 # OS
 .DS_Store
 Thumbs.db

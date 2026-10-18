@@ -25,7 +25,19 @@ LOGO_PATH = _APP_ROOT / "assets" / "logo.png"
 
 with st.sidebar:
     if LOGO_PATH.exists():
-        st.image(str(LOGO_PATH), width=80)
+        st.image(str(LOGO_PATH), width=80, use_container_width=False,
+                 output_format="PNG", clamp=True)
+        st.markdown(
+            "<style>.stImage img{"
+            "border-radius:50%;box-shadow:0 2px 8px rgba(0,0,0,0.12);"
+            "border:2px solid #D7CCC8;transition:transform 0.25s ease;"
+            "display:block;margin:0 auto;"
+            "}"
+            ".stImage img:hover{transform:scale(1.08) rotate(-2deg);"
+            "box-shadow:0 4px 14px rgba(141,110,99,0.25);border-color:#8D6E63;"
+            "}</style>",
+            unsafe_allow_html=True,
+        )
     else:
         st.markdown("### 🔍")
     st.markdown(
@@ -40,19 +52,29 @@ with st.sidebar:
     st.page_link("pages/02_Dashboard.py", label="   📊 Dashboard", use_container_width=True)
     st.page_link("pages/03_A_Propos.py", label="   ℹ️ À propos", use_container_width=True)
     st.divider()
-    st.caption("Projet de fin d'études  •  Aymen Ich  •  Mai 2026")
+    st.caption("PFA EMSI — Aymen Ichqarrane & Ihssane Moutchou  •  Mai 2026")
 
 col1, col2 = st.columns([1, 2])
 with col1:
     if LOGO_PATH.exists():
-        st.image(str(LOGO_PATH), width=180)
+        st.image(str(LOGO_PATH), width=180, use_container_width=False,
+                 output_format="PNG", clamp=True)
+        st.markdown(
+            "<style>.stImage img{"
+            "border-radius:16px;box-shadow:0 4px 14px rgba(0,0,0,0.10);"
+            "border:2px solid #E8E0D8;transition:transform 0.2s;"
+            "}"
+            ".stImage img:hover{transform:scale(1.03);"
+            "}</style>",
+            unsafe_allow_html=True,
+        )
     else:
         st.markdown("# 🔍")
 with col2:
     st.markdown(
         "<div class='app-header' style='border:none;padding-top:0;'>"
         "<h1>ℹ️ À propos</h1>"
-        "<p class='subtitle'>SentimentsLoupe — Projet de fin d'études</p>"
+        "<p class='subtitle'>SentimentsLoupe — Projet de Fin d'Année (PFA)</p>"
         "</div>",
         unsafe_allow_html=True,
     )
@@ -117,9 +139,24 @@ st.markdown(
 
 st.markdown(
     "<div class='card'>"
-    "<h3>👨‍💻 Auteur</h3>"
-    "<p><b>Aymen Ich</b> — Projet de fin d'études • Mai 2026</p>"
-    "<p>Technologies : Python, scikit-learn, Hugging Face Transformers, Streamlit</p>"
+    "<h3>👥 Équipe projet</h3>"
+    "<table style='width:100%;border-collapse:collapse;'>"
+    "<tr><td style='padding:0.5rem;vertical-align:top;width:50%;'>"
+    "<b>Aymen Ichqarrane</b><br>"
+    "<span style='color:#8D6E63;font-size:0.85rem;'>"
+    "Préparation des données, modèles ML,<br>"
+    "expérimentation, évaluation des performances"
+    "</span>"
+    "</td>"
+    "<td style='padding:0.5rem;vertical-align:top;width:50%;'>"
+    "<b>Ihssane Moutchou</b><br>"
+    "<span style='color:#8D6E63;font-size:0.85rem;'>"
+    "Scraping Jumia & Trustpilot,<br>"
+    "intégration des données, application Streamlit"
+    "</span>"
+    "</td></tr></table>"
+    "<p style='margin-top:1rem;font-size:0.85rem;color:#A1887F;'>"
+    "Technologies : Python, scikit-learn, Hugging Face Transformers, Streamlit</p>"
     "</div>",
     unsafe_allow_html=True,
 )
@@ -127,6 +164,6 @@ st.markdown(
 st.divider()
 st.markdown(
     "<div class='app-footer'>"
-    "SentimentsLoupe  •  Projet de fin d'études  •  Aymen Ich © 2026</div>",
+    "SentimentsLoupe  •  PFA EMSI  •  Aymen Ichqarrane & Ihssane Moutchou © 2026</div>",
     unsafe_allow_html=True,
 )

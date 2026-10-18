@@ -34,7 +34,19 @@ LOGO_PATH = _APP_ROOT / "assets" / "logo.png"
 
 with st.sidebar:
     if LOGO_PATH.exists():
-        st.image(str(LOGO_PATH), width=80)
+        st.image(str(LOGO_PATH), width=80, use_container_width=False,
+                 output_format="PNG", clamp=True)
+        st.markdown(
+            "<style>.stImage img{"
+            "border-radius:50%;box-shadow:0 2px 8px rgba(0,0,0,0.12);"
+            "border:2px solid #D7CCC8;transition:transform 0.25s ease;"
+            "display:block;margin:0 auto;"
+            "}"
+            ".stImage img:hover{transform:scale(1.08) rotate(-2deg);"
+            "box-shadow:0 4px 14px rgba(141,110,99,0.25);border-color:#8D6E63;"
+            "}</style>",
+            unsafe_allow_html=True,
+        )
     else:
         st.markdown("### 🔍")
 
@@ -62,12 +74,22 @@ with st.sidebar:
         unsafe_allow_html=True,
     )
     st.divider()
-    st.caption("Projet de fin d'études  •  Aymen Ich  •  Mai 2026")
+    st.caption("PFA EMSI — Aymen Ichqarrane & Ihssane Moutchou  •  Mai 2026")
 
 col1, col2 = st.columns([1, 2.2])
 with col1:
     if LOGO_PATH.exists():
-        st.image(str(LOGO_PATH), width=200)
+        st.image(str(LOGO_PATH), width=200, use_container_width=False,
+                 output_format="PNG", clamp=True)
+        st.markdown(
+            "<style>.stImage img{"
+            "border-radius:16px;box-shadow:0 4px 14px rgba(0,0,0,0.10);"
+            "border:2px solid #E8E0D8;transition:transform 0.2s;"
+            "}"
+            ".stImage img:hover{transform:scale(1.03);"
+            "}</style>",
+            unsafe_allow_html=True,
+        )
     else:
         st.markdown("# 🔍")
 
@@ -134,6 +156,6 @@ st.markdown(
 
 st.markdown(
     "<div class='app-footer'>"
-    "SentimentsLoupe  •  Projet de fin d'études  •  Aymen Ich © 2026</div>",
+    "SentimentsLoupe  •  PFA EMSI  •  Aymen Ichqarrane & Ihssane Moutchou © 2026</div>",
     unsafe_allow_html=True,
 )

@@ -54,7 +54,7 @@ with st.sidebar:
     )
 
     st.divider()
-    st.caption("Projet de fin d'études  •  Aymen Ich  •  Mai 2026")
+    st.caption("PFA EMSI — Aymen Ichqarrane & Ihssane Moutchou  •  Mai 2026")
 
 st.markdown(
     "<div class='app-header'>"
@@ -274,6 +274,6 @@ if analyze_clicked:
 st.divider()
 st.markdown(
     "<div class='app-footer'>"
-    "SentimentsLoupe  •  Projet de fin d'études  •  Aymen Ich © 2026</div>",
+    "SentimentsLoupe  •  PFA EMSI  •  Aymen Ichqarrane & Ihssane Moutchou © 2026</div>",
     unsafe_allow_html=True,
 )

@@ -43,7 +43,7 @@ with st.sidebar:
     st.page_link("pages/02_Dashboard.py", label="   📊 Dashboard", use_container_width=True)
     st.page_link("pages/03_A_Propos.py", label="   ℹ️ À propos", use_container_width=True)
     st.divider()
-    st.caption("Projet de fin d'études  •  Aymen Ich  •  Mai 2026")
+    st.caption("PFA EMSI — Aymen Ichqarrane & Ihssane Moutchou  •  Mai 2026")
 
 st.markdown(
     "<div class='app-header'>"
@@ -171,6 +171,6 @@ else:
 st.divider()
 st.markdown(
     "<div class='app-footer'>"
-    "SentimentsLoupe  •  Projet de fin d'études  •  Aymen Ich © 2026</div>",
+    "SentimentsLoupe  •  PFA EMSI  •  Aymen Ichqarrane & Ihssane Moutchou © 2026</div>",
     unsafe_allow_html=True,
 )
