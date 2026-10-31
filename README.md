@@ -251,7 +251,7 @@ Au-delà du code, ce PFA s'est appuyé sur trois cadres :
 
 **Répartition du travail :**
 - **Aymen Ichqarrane** — préparation des données, modèles, expérimentation, évaluation
-- **Ihssane Moutchou ~~ ** — modules de scraping, intégration des données, application Streamlit
+- **Ihssane Moutchou~~** — modules de scraping, intégration des données, application Streamlit
 
 ---
 
@@ -301,7 +301,7 @@ On préfère le dire clairement plutôt que de laisser croire que c'est résolu 
 **Aymen Ichqarrane** — développement ML, modèles, expérimentation
 🐙 [github.com/aymenichqa](https://github.com/aymenichqa) · ✉️ [aymenichqa@gmail.com](mailto:aymenichqa@gmail.com)
 
-**Ihssane Moutchou ~~** — scraping, application Streamlit, collecte de données
+**Ihssane Moutchou~~** — scraping, application Streamlit, collecte de données
 🐙 [github.com/Ihssanemoutchou](https://github.com/Ihssanemoutchou) 
 
 
