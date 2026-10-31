@@ -302,7 +302,7 @@ On préfère le dire clairement plutôt que de laisser croire que c'est résolu 
 🐙 [github.com/aymenichqa](https://github.com/aymenichqa) · ✉️ [aymenichqa@gmail.com](mailto:aymenichqa@gmail.com)
 
 **Ihssane Moutchou ~~** — scraping, application Streamlit, collecte de données
-🐙 [github.com/Ihssanemoutchou](https://github.com/Ihssanemoutchou) · ✉️ [aymenichqa@gmail.com](mailto:aymenichqa@gmail.com)
+🐙 [github.com/Ihssanemoutchou](https://github.com/Ihssanemoutchou) 
 
 
 Projet réalisé dans le cadre du **Projet de Fin d'Année** — EMSI, filière IIR — Mai 2026.
