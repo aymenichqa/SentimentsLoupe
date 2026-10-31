@@ -14,20 +14,20 @@ SentimentsLoupe est le projet de fin d'année (PFA) que j'ai réalisé à l'**EM
 
 ---
 
+
 ## 🖥️ Application Preview
 
-### Home
-![Home](assets/Screenshot 2026-06-21 151438.png)   
+### 🏠 Home
+![Home](assets/Screenshot%202026-06-21%20151438.png)
 
-### Sentiment Analysis
-![Analysis](assets/Screenshot 2026-06-21 151715.png)
+### 🎯 Sentiment Analysis
+![Sentiment Analysis](assets/Screenshot%202026-06-21%20151715.png)
 
-### Results Dashboard 
-![Dashboard](assets/Screenshot 2026-06-22 161435.png)
+### 📊 Results Dashboard
+![Results Dashboard](assets/Screenshot%202026-06-22%20161435.png)
 
-### Collection 
-![Collection](assets/Screenshot 2026-06-22 161302.png)
-
+### 📁 Collection
+![Collection](assets/Screenshot%202026-06-22%20161302.png)
 
 
 ## Sommaire
